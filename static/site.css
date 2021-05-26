@@ -1,0 +1,351 @@
+body {
+    margin: 0;
+    border: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body,
+button {
+    font-family: sans-serif;
+}
+
+button {
+    font-size: 16px;
+}
+
+h1 {
+    margin: 0;
+}
+
+#sidebar,
+#content {
+    float: left;
+}
+
+#content {
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+.mainbox {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: left;
+    box-sizing: border-box;
+    border-style: solid;
+    border-width: 5px;
+    border-color: white;
+    width: 100%;
+    height: 100%;
+}
+
+.card {
+    margin: 0px;
+}
+
+.card-content {
+    width: 310px;
+    border: 1px solid gray;
+    box-shadow: 1px 1px 3px #888888;
+    height: 280px;
+    padding: 10px;
+    font-size: 9px;
+    margin: 10px;
+}
+
+.card-summary {
+    padding: 5% 5% 5% 5%
+}
+
+.statusbar {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background: rgb(0, 122, 204);
+    color: white;
+    text-align: left;
+    vertical-align: bottom;
+    padding: 10px;
+    font-size: 10px;
+}
+
+#card .button {
+    width: 24px;
+    height: 24px;
+    padding-bottom: 10px;
+    border-radius: 50%;
+    border: none;
+    overflow: hidden;
+    background: rgb(0, 122, 204);
+}
+
+#card .button:hover {
+    background: rgb(26, 164, 255);
+}
+
+#card .button:focus {
+    outline: 0;
+}
+
+.loader {
+    border: 3px solid #f3f3f3;
+    /* Light grey */
+    border-top: 3px solid rgb(0, 65, 119);
+    /* Blue */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    left: 50%;
+    top: 65%;
+    animation: spin 2s linear infinite;
+    transform: translate3d(-50%, -50%, 0);
+    transform-origin: center;
+    will-change: transform;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+input.hide {
+    position: relative;
+    -moz-opacity: 0;
+    filter: alpha(opacity: 0);
+    opacity: 0;
+    z-index: 1;
+    width: 110px;
+    height: 40px;
+}
+
+.action-btn {
+    font-size: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Remove borders */
+    color: #006DF0;
+    border: 2px solid #130469;
+    background-color: #aabac9;
+    /* Add a backgriund color */
+    padding: 6px 14px;
+    margin: 4px 2px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    /* Add a pointer cursor on mouse-over */
+}
+
+.round-button-selected {
+    background-color: #0174DF;
+    /* Green */
+    border: none;
+    color: white;
+    padding: 4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    width: 24px;
+    height: 24px;
+    margin: 2px 2px;
+    cursor: pointer;
+    outline: none;
+    border-radius: 50%;
+}
+
+.round-button-unselected {
+    background-color: rgba(255, 255, 255, 0.3);
+    /* Green */
+    border: none;
+    color: white;
+    padding: 4px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    width: 24px;
+    height: 24px;
+    margin: 2px 2px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+#uploadWait {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 60px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+
+#deleteWait {
+    padding-left: 140px;
+    background: #fefefe;
+    opacity: 0.3;
+    z-index: 1;
+    overflow: none;
+}
+
+#infoWait {
+    width: 420px;
+    height: 480px;
+    padding-left: 240px;
+    overflow: none;
+    background-color: #fefefe;
+    border: 1px solid gray;
+    box-shadow: 1px 1px 3px #888888;
+}
+
+#upload {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+}
+
+#uploadDirectory {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+}
+
+#droparea {
+    width: 120px;
+    height: 120px;
+    color: #0174DF;
+    border: 3px solid #0174DF;
+    vertical-align: baseline;
+    background-color: rgba(255, 255, 255, 0.4);
+    margin: 0 auto;
+    text-align: center;
+    text-shadow: 1px 1px 0 #eee;
+}
+
+#droparea p {
+    margin: 7px 0;
+}
+
+#droparea .dropareainner {
+    margin-top: 35px;
+}
+
+#droparea.dropfiletext {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#droparea .uploadbtn {
+    border: 1px solid #eee;
+    background-color: #f4f4f4;
+    padding: 4px 8px;
+    margin-bottom: 5px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #0174DF;
+}
+
+#droparea .uploadbtn:hover {
+    border-color: #0174DF;
+    color: #555;
+}
+
+#droparea .hover {
+    border-color: #0174DF;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+#err {
+    color: #DB0000;
+    padding-top: 3px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.play {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.play:hover {
+    opacity: 1;
+}
+
+#toolbar {
+    height: 64px;
+    text-align: left;
+    padding: 5px;
+    width: 100%;
+    overflow: hidden;
+}
+
+#toolbar .layout {
+    top: 50%;
+    position: relative;
+    transform: translateY(-50%);
+}
+
+#toolbar .tool {
+    padding-right: 5px;
+    padding-bottom: 10px;
+}
+
+#toolbar .tool:last-child {
+    padding-right: 0;
+}
+
+#toolbar .button {
+    width: 36px;
+    height: 36px;
+    padding-bottom: 5px;
+    margin-right: 4px;
+    border-radius: 50%;
+    border: none;
+    overflow: hidden;
+    background: rgb(0, 122, 204);
+}
+
+#toolbar .button:hover {
+    background: rgb(26, 164, 255);
+}
+
+#toolbar .button:focus {
+    outline: 0;
+}
+
+#toolbar .button img {
+    display: block;
+    width: 76%;
+    padding: 12%;
+    height: auto;
+}

@@ -1,0 +1,168 @@
+/* The Modal (background) */
+
+.modal {
+    font-size: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: absolute;
+    /* Stay in place */
+    z-index: 10;
+    /* Sit on top */
+    padding-top: 80px;
+    /* Location of the box */
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    /* Full width */
+    bottom: 0px;
+    /* Full width */
+    overflow: auto;
+    /* Enable scroll if needed */
+    opacity: 0.2;
+    background-color: rgba(12, 83, 175, 0.8);
+    /* Black w/ opacity */
+}
+
+
+/* Modal Dimmer */
+
+.modal-blocker {
+    position: absolute;
+    padding: 120px;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    /* Sit on top */
+    opacity: 0.6;
+}
+
+
+/* Modal Content */
+
+.modal-content {
+    position: relative;
+    margin: auto;
+    padding: 0;
+    border: 2px solid rgba(12, 83, 175, 0.8);
+    background: white;
+    width: 70%;
+    z-index: 20;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    -webkit-animation-name: fadeIn;
+    -webkit-animation-duration: 0.4s;
+    animation-name: fadeIn;
+    animation-duration: 0.4s
+}
+
+.modal-header {
+    padding: 2px 2px;
+    font-size: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: rgba(12, 83, 175, 0.8);
+    letter-spacing: 4px;
+    text-indent: 10px;
+    color: white;
+    border-bottom: 2px solid #000;
+}
+
+.modal-body {
+    padding: 2px 16px;
+    display: block;
+}
+
+.modal-btn {
+    position: relative;
+    font-size: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: none;
+    /* Remove borders */
+    color: black;
+    border: 2px solid #186904;
+    background-color: #a6ff90;
+    /* Add a backgriund color */
+    padding: 6px 14px;
+    margin: 4px 2px;
+    border-radius: 4px;
+    left: -15px;
+    cursor: pointer;
+    /* Add a pointer cursor on mouse-over */
+}
+
+.modal-btn:hover {
+    opacity: 0.8;
+}
+
+.modal-cancel-btn {
+    position: relative;
+    border: none;
+    /* Remove borders */
+    color: white;
+    font-size: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ff9790;
+    /* Add a backgriund color */
+    padding: 6px 14px;
+    margin: 4px 2px;
+    border-radius: 4px;
+    left: -15px;
+    cursor: pointer;
+    /* Add a pointer cursor on mouse-over */
+}
+
+.modal-cancel-btn:hover {
+    opacity: 0.8;
+}
+
+.modal-label {
+    color: black;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 12px;
+}
+
+.modal-entry {
+    width: 100%;
+    /* Full width */
+    height: 18px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin-top: 6px;
+    margin-bottom: 14px;
+}
+
+
+/* Add animation (fade in the popup) */
+
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* The Close Button */
+
+.close {
+    color: rgba(0, 0, 0, 0.8);
+    float: right;
+    font-size: 24px;
+}
+
+.close:hover,
+.close:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}

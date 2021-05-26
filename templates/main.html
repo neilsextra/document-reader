@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="icon" type="text/css" href="{{ url_for('static', filename='favicon.ico') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='site.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='modal.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='tab.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dropdown.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='slider.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ bower_url_for(component='swiper', filename='dist/css/swiper.min.css') }}" />
+
+    <script>
+        var expandImage = "{{ url_for('static', filename='expand.svg') }}";
+        var pdfImageModel = "{{ url_for('static', filename='pdf-file-model.svg') }}";
+        var pdfImageNoModel = "{{ url_for('static', filename='pdf-file-no-model.svg') }}";
+    </script>
+
+    <script type="text/javascript" src="{{ bower_url_for(component='jquery', filename='dist/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ bower_url_for(component='jquery.cookie', filename='jquery.cookie.js') }}"></script>
+    <script type="text/javascript" src="{{ bower_url_for(component='swiper', filename='dist/js/swiper.min.js') }}"></script>
+    <script type="text/javascript" src="{{ bower_url_for(component='pdfjs-dist', filename='build/pdf.js') }}"></script>
+    <script type="text/javascript" id="pdf-js-worker" src="{{ bower_url_for(component='pdfjs-dist', filename='build/pdf.worker.js') }}"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = document.getElementById("pdf-js-worker").getAttribute("src");
+    </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='cloud.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='main.js') }}"></script>
+
+</head>
+
+<body>
+    <div class='main' style="width: 12%; height:12%; overflow:hidden; background-color: #97b9d8;">
+        <div style="position: absolute; overflow:hidden; top:0px; bottom:0px; left:0px; right:0px; background-color: #97b9d8;">
+            <img src="{{ url_for('static', filename='receipt.svg') }}" style="position:absolute; top:6px; left:10px; height:64px; width:64px" alt="Receipt" />
+            <div id='toolbar'>
+                <div style="position:absolute; top:16px; left:84px; font-weight:bold; font-size: 32px; letter-spacing: 4px; color:#006DF0;">
+                    <label>Forms Processor</label>
+                </div>
+                <div id="fileNameLabel" style="position: absolute; top:15px; left:130px; font-size:20px; width:450px; height:24px; text-align:right; padding:10px; color: #006DF0;">
+                    <label id="fileName"></label>
+                </div>
+                <div id="modelIDLabel" style="position: absolute; top:15px; right:230px; font-size:18px; width:450px; height:24px; text-align:right; padding:10px; color: #006DF0;">
+                    <label id="modelID"></label>
+                </div>
+                <div id="connectButton" class="action-btn" style="position: absolute; top:10px; right:120px; width:70px;">
+                    <a id="connect" href="" style="color: #006DF0; font-size: 18px; font-weight: bold; text-decoration: none">Connect</a>
+                </div>
+                <div id="trainButton" class="action-btn" style="position: absolute; top:10px; right:10px; width:70px;">
+                    <a id="train" href="" style="color: #006DF0; font-size: 18px; font-weight: bold; text-decoration: none">Train</a>
+                </div>
+            </div>
+            <div id="document" style="position:absolute; top:75px; left:10px; right:445px; bottom:260px; border:3px solid #0174DF;">
+                <div id="display" style="position:absolute; display:none; top:10px; left:10px; right:10px; bottom:35px; padding:10px; overflow:auto; background-color:rgba(255, 255, 255, 0.3);  border:3px solid #0174DF;">
+                </div>
+                <div id="pages" style="position:absolute; left:10px; right:0px; bottom:2px; margin: auto;">
+                </div>
+            </div>
+        </div>
+        <div id="details" style="position:fixed; top:75px; right:10px; width:400px; bottom:260px; border:3px solid #0174DF; padding:10px; overflow:hidden; background-color:rgba(255, 255, 255, 0.3);">
+            <div id="summary" style="position:absolute; top:10px; right:10px; left:10px; bottom:50px; border:3px solid #0174DF; padding:10px; overflow:auto; background-color:rgba(255, 255, 255, 1.0);">
+            </div>
+            <div id="analyzeButton" class="action-btn" style="position: absolute; bottom:0px; right:10px; width:70px;">
+                <a id="analyze" href="" style="color: #006DF0; font-size: 18px; font-weight: bold; text-decoration: none">Analyze</a>
+            </div>
+
+        </div>
+
+        <div style="position:absolute; left:10px; right:0px; bottom:10px;">
+            <div style='position:absolute; left:0px; bottom:8px'>
+                <div id='droparea' style="left:10px; width:240px; height:230px;">
+                    <div id='dropareainner'>
+                        <p></p>
+                        <p></p>
+                        <img src="{{ url_for( 'static', filename='download.svg' ) }}" style='width:78px; height:78px' />
+                        <p></p>
+                        <p id='dropfiletext'>Drop Documents Here</p>
+                        <p>or</p>
+                        <p></p>
+                        <input class='uploadbtn' id='uploadbtn' type='button' value="Select Documents" />
+                        <input id='upload' type='file' accept='*.jpg|*.png' multiple/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id='navigator' style='position:absolute; left:260px; right:8px; bottom:17px; height:218px; margin:2px; border:3px solid #0174DF; padding:5px;'>
+            <div class='swiper-container' id='swiper-container' style='right:0px; padding-bottom:60px;'>
+                <div id='swiper-wrapper' class='swiper-wrapper' style='height:160px; width:160px;'></div>
+                <div id='swiper-pagination' class='swiper-pagination' style='margin-top:0px'></div>
+            </div>
+        </div>
+        <div class="model" id="cloud-connect">
+            <div style="position:absolute; padding:120px; top:0px; bottom:0px; left:0px; right:0px;">
+                <div class="modal-content" style="margin-top:40px; width:440px;">
+                    <div class="modal-header">
+                        <span id="close-connect" class="close" style="display:none;" onclick="close_panel( '#cloud-connect')">&times;</span>
+                        <h2 id="dialog_title">Connect to Azure Cloud</h2>
+                    </div>
+                    <div class="modal-body" id="text" style="height:220px;">
+                        <table style="font-size: small; padding:8px;">
+                            <tr>
+                                <td style="font-weight: bold; color:black;">
+                                    Storage Account
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="cloud-account" name="cloud-account" style="font-size: small; width:380px; height:18px;"></input>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; color:black;">
+                                    Token
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="cloud-token" name="token" style="font-size: small; width:380px; height:18px;"></input>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; color:black;">
+                                    File System
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="cloud-container" name="container" style="font-size: small; width:380px; height:18px;"></input>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: bold; color:black;">
+                                    Directory
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="text" id="cloud-directory" name="directory" style="font-size: small; width:380px; height:18px;"></input>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label type="text" id="cloud-message" name="cloud-message" style="font-size: small; width:380px; height:18px; color:red"></label>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                    <div style="padding-left:20px; margin-top:20px; background-color: rgba(12, 83, 175, 0.8);">
+                        <button class="modal-btn" id="ok_cloud_connect_button">OK</button>
+                        <button class="modal-cancel-btn" id="cancel_cloud_connect_button" style="display:none;" onclick="close_panel( '#cloud-connect')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="model" id="train-model" style="display:none">
+        <div style="position:absolute; padding:120px; top:0px; bottom:0px; left:0px; right:0px;">
+            <div class="modal-content" style="margin-top:40px; width:440px;">
+                <div class="modal-header">
+                    <span class="close" style="display:inline-block;" onclick="close_panel( '#train-model')">&times;</span>
+                    <h2 id="dialog_title">Train Model</h2>
+                </div>
+                <div class="modal-body" id="text" style="height:140px;">
+                    <table style="font-size: small; padding:8px;">
+                        <tr>
+                            <td style="font-weight: bold; color:black;">
+                                Training URL
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" id="training-url" name="training-url" style="font-size: small; width:380px; height:18px;"></input>
+                            </td>
+                        </tr>
+                        <tr style="margin-top:5px;">
+                            <td style="font-weight: bold; color:black;">
+                                APIM Key
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" id="apim-key" name="apim-key" style="font-size: small; width:380px; height:18px;"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label type="text" id="train-message" name="train-message" style="font-size: small; width:380px; height:18px; color:red"></label>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+                <div style="padding-left:20px; margin-top:20px; background-color: rgba(12, 83, 175, 0.8);">
+                    <button class="modal-btn" id="ok_train_model_button">OK</button>
+                    <button class="modal-cancel-btn" id="cancel_train_model_button" onclick="close_panel( '#train-model')">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+
+    </div>
+
+    <div id='waitDialog' class='modal' style="display:none;">
+        <div style="position:fixed; text-align: center; top:50%; left:48%; margin-left:0px; margin-top:-100px;">
+            <div class='loader'></div>
+        </div>
+        <div id='waitMessage' style="position:absolute; top:50%; color:black; text-align: center; font-weight:bold; font-size:14px; width:100%; z-index:10000;"></div>
+
+    </div>
+</body>
+
+</html>
